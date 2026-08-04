@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Briefing interactivo sobre fundamentos y principios de la Interacción Humano-Computadora aplicados al diseño UX." />
+  <title>Fundamentos HCI | Briefing Interactivo</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Inicio, Fundamentos HCI">
+        <span class="brand-mark" aria-hidden="true">HCI</span>
+        <span>Fundamentos HCI</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="#fundamentos">Fundamentos</a></li>
+          <li><a href="#leyes">Leyes</a></li>
+          <li><a href="#herramientas">Herramientas</a></li>
+          <li><a href="#aplicacion">Aplicación</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Briefing interactivo · Kokyuu UX</span>
+          <h1>Diseñar interfaces que respiren con quien las usa.</h1>
+          <p>
+            Este briefing cruza los principios de la Interacción Humano-Computadora con una idea simple: cada ley de UX tiene su propio ritmo, su propia forma de respirar. Aprenderla es aprender a no desperdiciar ni un movimiento del usuario.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#leyes">Explorar principios</a>
+            <a class="btn btn-secondary" href="#aplicacion">Ver caso práctico</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Resumen de criterios del briefing">
+          <div class="hero-panel-top">
+            <div>
+              <strong>Total Concentración de diseño</strong><br />
+              <span style="color: var(--muted); font-size: .9rem;">Diseño, interacción y accesibilidad</span>
+            </div>
+            <span class="status">Enfoque activo</span>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><strong>4</strong><span>respiraciones cognitivas</span></div>
+            <div class="metric"><strong>7</strong><span>formas Gestalt</span></div>
+            <div class="metric"><strong>3</strong><span>leyes-estilo</span></div>
+            <div class="metric"><strong>5</strong><span>katas pedagógicos</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="fundamentos">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">01 · Respiración base</span>
+            <h2>Toda interfaz respira, aunque no lo notes.</h2>
+          </div>
+          <p>
+            Una práctica rigurosa integra procesos cognitivos, mecanismos de interacción y conceptos de diseño para comprender cómo el usuario interpreta, decide y actúa.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="number">A</div>
+            <h3>La respiración de la mente</h3>
+            <p>Percepción, memoria, atención y carga cognitiva: el aire que entra antes de cualquier decisión del usuario.</p>
+          </article>
+          <article class="card">
+            <div class="number">B</div>
+            <h3>La respiración del cuerpo</h3>
+            <p>El feedback, la consistencia y la prevención de errores convierten cada acción incierta en un movimiento entrenado.</p>
+          </article>
+          <article class="card">
+            <div class="number">C</div>
+            <h3>La forma del estilo</h3>
+            <p>Modelos mentales, affordances y accesibilidad: la técnica se vuelve reconocible cuando se repite bien.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="leyes">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">02 · Los cuatro estilos</span>
+            <h2>Cuatro leyes, cuatro formas de respirar.</h2>
+          </div>
+          <p>
+            Cada ley se compara aquí con un estilo de respiración solo como recurso para recordarla mejor — la ley sigue siendo la misma evidencia de siempre, aplicada a tareas reales y contexto de uso.
+          </p>
+        </div>
+
+        <div class="law-grid">
+          <article class="law-card">
+            <h3>Ley de Fitts · Estilo del Trueno</h3>
+            <p>El tiempo de selección depende de la distancia y del tamaño del objetivo — un golpe, un blanco, sin movimiento de más.</p>
+            <ul>
+              <li>Botones principales amplios.</li>
+              <li>Separación adecuada entre controles.</li>
+              <li>Objetivos táctiles fáciles de alcanzar.</li>
+            </ul>
+          </article>
+          <article class="law-card">
+            <h3>Ley de Hick · Estilo de la Niebla</h3>
+            <p>Más alternativas aumentan el tiempo y el esfuerzo de decidir — la niebla no muestra el camino completo, solo el siguiente paso.</p>
+            <ul>
+              <li>Agrupar y jerarquizar.</li>
+              <li>Aplicar filtros y búsqueda.</li>
+              <li>Usar revelación progresiva.</li>
+            </ul>
+          </article>
+          <article class="law-card">
+            <h3>Ley de Jakob · Respiración Total</h3>
+            <p>Las personas esperan que una interfaz se comporte como otros productos que ya conocen — es la base que todo cazador aprende primero.</p>
+            <ul>
+              <li>Respetar convenciones útiles.</li>
+              <li>Apoyar modelos mentales existentes.</li>
+              <li>Innovar sin sacrificar claridad.</li>
+            </ul>
+          </article>
+          <article class="law-card">
+            <h3>Principios Gestalt · Estilo de la Piedra</h3>
+            <p>La organización visual influye en cómo se agrupan, priorizan e interpretan los elementos — firme y estructurada como una montaña.</p>
+            <ul>
+              <li>Proximidad y similitud.</li>
+              <li>Continuidad y cierre.</li>
+              <li>Región común, figura-fondo y destino común.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="demo-panel" aria-label="Demostraciones interactivas de las leyes de Fitts y Hick">
+          <section class="demo-box">
+            <h3>Demostración: objetivos táctiles</h3>
+            <p style="color: var(--muted);">Compara la facilidad para seleccionar un objetivo pequeño frente a uno amplio.</p>
+            <div class="target-row">
+              <button class="target-small" aria-label="Objetivo táctil pequeño" data-target="small"></button>
+              <button class="target-large" aria-label="Objetivo táctil grande" data-target="large">64</button>
+            </div>
+            <p id="fitts-feedback" role="status" aria-live="polite" style="margin-bottom: 0; color: var(--primary-dark); font-weight: 700;">Selecciona uno de los objetivos.</p>
+          </section>
+
+          <section class="demo-box">
+            <h3>Demostración: gestión de opciones</h3>
+            <p style="color: var(--muted);">Las opciones están agrupadas por intención para reducir la exploración.</p>
+            <div class="choice-grid" id="choice-grid">
+              <button class="choice" aria-pressed="false">Crear cuenta</button>
+              <button class="choice" aria-pressed="false">Iniciar sesión</button>
+              <button class="choice" aria-pressed="false">Recuperar acceso</button>
+              <button class="choice" aria-pressed="false">Contactar soporte</button>
+            </div>
+            <p id="hick-feedback" role="status" aria-live="polite" style="margin-bottom: 0; color: var(--primary-dark); font-weight: 700;">Elige una acción principal.</p>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">03 · Entrenamiento mental</span>
+            <h2>Ninguna técnica funciona sin un cuerpo entrenado.</h2>
+          </div>
+          <p>La interfaz debe reducir esfuerzo innecesario, ofrecer señales claras y permitir la recuperación cuando algo sale mal.</p>
+        </div>
+
+        <table class="principles-table">
+          <thead>
+            <tr>
+              <th scope="col">Concepto</th>
+              <th scope="col">Aplicación recomendada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Memoria</strong></td>
+              <td>Mostrar información contextual y evitar que la persona recuerde datos entre pasos.</td>
+            </tr>
+            <tr>
+              <td><strong>Carga cognitiva</strong></td>
+              <td>Simplificar tareas, dividir procesos y retirar elementos que no ayudan al objetivo principal.</td>
+            </tr>
+            <tr>
+              <td><strong>Retroalimentación</strong></td>
+              <td>Comunicar estados, confirmaciones, tiempos de espera y resultados de cada acción.</td>
+            </tr>
+            <tr>
+              <td><strong>Errores</strong></td>
+              <td>Prevenir entradas inválidas y ofrecer mensajes útiles, corrección y opciones de deshacer.</td>
+            </tr>
+            <tr>
+              <td><strong>Consistencia</strong></td>
+              <td>Mantener patrones internos estables y respetar convenciones externas conocidas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="herramientas">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">04 · Marcar el ritmo</span>
+            <h2>Herramientas que marcan el compás del diseño.</h2>
+          </div>
+          <p>Los diagramas y mapas aportan valor solo cuando representan necesidades, tareas y comportamientos observados.</p>
+        </div>
+
+        <div class="tool-grid">
+          <article class="tool-card">
+            <h3>User flows</h3>
+            <p>Representan cómo una persona entra, actúa, decide, se equivoca y alcanza un resultado.</p>
+            <div class="tag-list" aria-label="Elementos de un flujo de usuario">
+              <span class="tag">Punto de entrada</span>
+              <span class="tag">Acciones</span>
+              <span class="tag">Decisiones</span>
+              <span class="tag">Errores</span>
+              <span class="tag">Rutas alternativas</span>
+            </div>
+          </article>
+          <article class="tool-card">
+            <h3>Mapas de empatía</h3>
+            <p>Organizan hallazgos sobre lo que la persona dice, piensa, hace y siente sin reemplazar la investigación.</p>
+            <div class="tag-list" aria-label="Fuentes de evidencia para mapas de empatía">
+              <span class="tag">Entrevistas</span>
+              <span class="tag">Observación</span>
+              <span class="tag">Encuestas</span>
+              <span class="tag">Pruebas de usabilidad</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container explainable">
+        <div class="quote-card">
+          <p>"Una respiración sin forma es solo aire. Una decisión de diseño sin principio es solo decoración."</p>
+          <span>Diseño con disciplina, no con estética prestada.</span>
+        </div>
+
+        <div class="checklist" aria-label="Criterios de una solución explicable">
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Principios cognitivos</strong><br /><span style="color: var(--muted);">La decisión responde a cómo las personas perciben, recuerdan y deciden.</span></div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Evidencia de usuarios</strong><br /><span style="color: var(--muted);">La solución se apoya en datos cualitativos o cuantitativos.</span></div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Requisitos y accesibilidad</strong><br /><span style="color: var(--muted);">La interfaz cumple funciones, restricciones y criterios WCAG.</span></div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Trade-offs explícitos</strong><br /><span style="color: var(--muted);">Se explica por qué un patrón fue elegido frente a otras alternativas.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">05 · El entrenamiento completo</span>
+            <h2>Del primer aliento a la prueba final.</h2>
+          </div>
+          <p>El recorrido comienza con la comprensión de la cognición humana y termina con la validación de soluciones mediante accesibilidad y pruebas.</p>
+        </div>
+
+        <ol class="module-list">
+          <li><div><strong>Fundamentos cognitivos y perceptuales</strong><br /><span style="color: var(--muted);">Gestalt, percepción, memoria y atención.</span></div></li>
+          <li><div><strong>Leyes de interacción y affordances</strong><br /><span style="color: var(--muted);">Fitts, Hick, Jakob y señales de uso.</span></div></li>
+          <li><div><strong>Feedback y gestión de errores</strong><br /><span style="color: var(--muted);">Estados, consistencia, prevención y recuperación.</span></div></li>
+          <li><div><strong>Accesibilidad y pruebas</strong><br /><span style="color: var(--muted);">WCAG, teclado, lectores de pantalla y validación con usuarios.</span></div></li>
+          <li><div><strong>Modelado basado en datos</strong><br /><span style="color: var(--muted);">User flows y mapas de empatía sustentados en evidencia.</span></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="aplicacion">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Caso práctico · Ingreso al entrenamiento</span>
+            <h2>Formulario de registro móvil.</h2>
+          </div>
+          <p>Este ejemplo aplica revelación progresiva, objetivos táctiles amplios, validación en línea y feedback accesible — la misma disciplina que exige cualquier técnica bien ejecutada: sin pasos de más, sin señales ambiguas.</p>
+        </div>
+
+        <div class="form-demo">
+          <div class="progress" aria-label="Progreso del entrenamiento: paso 1 de 2"><span></span></div>
+          <form id="registration-form" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Nombre completo</label>
+                <input id="name" name="name" autocomplete="name" required aria-describedby="name-help name-error" />
+                <small id="name-help">Usa el nombre con el que quieres que te reconozcan.</small>
+                <span class="field-error" id="name-error" aria-live="polite"></span>
+              </div>
+              <div class="field">
+                <label for="email">Correo electrónico</label>
+                <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-help email-error" />
+                <small id="email-help">Te enviaremos la confirmación de tu ingreso.</small>
+                <span class="field-error" id="email-error" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+              <button class="btn btn-primary" type="submit">Continuar</button>
+            </div>
+            <div class="feedback" id="form-feedback" role="status" aria-live="polite" tabindex="-1" hidden>
+              Datos válidos. Puedes continuar al siguiente aliento.
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Briefing interactivo · Principios HCI aplicados con la disciplina de una respiración: claros, precisos, accesibles.</div>
+  </footer>
+
+  <script>
+    const fittsFeedback = document.getElementById('fitts-feedback');
+    document.querySelectorAll('[data-target]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const isLarge = button.dataset.target === 'large';
+        fittsFeedback.textContent = isLarge
+          ? 'Objetivo amplio: selección más rápida y con menor riesgo de error.'
+          : 'Objetivo pequeño: requiere mayor precisión y aumenta la probabilidad de error.';
+      });
+    });
+
+    const choices = document.querySelectorAll('.choice');
+    const hickFeedback = document.getElementById('hick-feedback');
+    choices.forEach((choice) => {
+      choice.addEventListener('click', () => {
+        choices.forEach((item) => item.setAttribute('aria-pressed', 'false'));
+        choice.setAttribute('aria-pressed', 'true');
+        hickFeedback.textContent = `Acción seleccionada: ${choice.textContent}. La jerarquía reduce la carga de decisión.`;
+      });
+    });
+
+    const form = document.getElementById('registration-form');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    const formFeedback = document.getElementById('form-feedback');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      let valid = true;
+      nameError.textContent = '';
+      emailError.textContent = '';
+      formFeedback.hidden = true;
+
+      if (!nameInput.value.trim()) {
+        nameError.textContent = 'Escribe tu nombre completo.';
+        valid = false;
+      }
+
+      if (!emailInput.value.trim()) {
+        emailError.textContent = 'Escribe tu correo electrónico.';
+        valid = false;
+      } else if (!emailInput.validity.valid) {
+        emailError.textContent = 'Usa un formato válido, por ejemplo: nombre@empresa.com.';
+        valid = false;
+      }
+
+      if (valid) {
+        formFeedback.hidden = false;
+        formFeedback.focus?.();
+      } else {
+        const firstInvalid = !nameInput.value.trim() ? nameInput : emailInput;
+        firstInvalid.focus();
+      }
+    });
+  </script>
+</body>
+</html>
