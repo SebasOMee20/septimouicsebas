@@ -4,6 +4,12 @@ Sitio web informativo e interactivo desarrollado para presentar el proyecto **Si
 
 La página explica el problema de forma visual y accesible, combinando conceptos de **Interacción Humano-Computadora (HCI/UX)** con técnicas de detección basadas en comparación de contenido y aprendizaje automático.
 
+## 🌐 Ver demostración
+
+👉 **[Abrir Sistema AntiCloaking Inteligente](https://sebasomee20.github.io/septimouicsebas/)**
+
+> Explora la demostración interactiva del proyecto, incluyendo la explicación en audio, las técnicas de cloaking y la propuesta de detección.
+
 ## ✨ Características
 
 - 🎯 Página de inicio con presentación del proyecto.
