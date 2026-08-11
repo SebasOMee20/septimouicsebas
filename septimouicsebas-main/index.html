@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sistema AntiCloaking Inteligente: detección automática de sitios que muestran contenido distinto a escáneres de seguridad y a usuarios reales." />
+  <title>Sistema AntiCloaking Inteligente</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+  <div id="page-loader" aria-hidden="true"><div class="loader-mark"></div></div>
+  <canvas id="particles-bg" aria-hidden="true"></canvas>
+  <div class="dashboard-overlay" id="dashboard-overlay" hidden>
+  <div class="dashboard-panel" role="dialog" aria-modal="true" aria-labelledby="dashboard-title">
+    <div class="dashboard-header">
+      <h2 id="dashboard-title">Reportes recibidos</h2>
+      <button class="dashboard-close" id="dashboard-close" aria-label="Cerrar panel de reportes">×</button>
+    </div>
+    <div class="dashboard-body">
+      <p class="dashboard-empty" id="dashboard-empty">Todavía no hay reportes guardados en este navegador.</p>
+      <table class="dashboard-table" id="dashboard-table" hidden>
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Fecha</th>
+            <th scope="col"><span class="visually-hidden">Acciones</span></th>
+          </tr>
+        </thead>
+        <tbody id="dashboard-tbody"></tbody>
+      </table>
+    </div>
+    <div class="dashboard-footer">
+      <span id="dashboard-count">0 reportes</span>
+      <button class="btn btn-secondary" id="dashboard-clear" type="button">Borrar todos</button>
+    </div>
+  </div>
+</div>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Inicio, Sistema AntiCloaking">
+        <span class="brand-mark" aria-hidden="true">AC</span>
+        <span>AntiCloaking</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="#fundamentos">Qué es</a></li>
+          <li><a href="#leyes">Cómo funciona</a></li>
+          <li><a href="#audio-explicativo">Audio</a></li>
+          <li><a href="#aplicacion">Reportar</a></li>
+          <li><button class="nav-link-btn" id="dashboard-open" type="button">Dashboard</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">Proyecto de grado · Detección de cloaking</span>
+          <h1>Diseñar sistemas que vean a través del disfraz.</h1>
+          <p>
+            El Sistema AntiCloaking Inteligente detecta cuándo un sitio le muestra una cara distinta a un escáner de seguridad que a la persona real que lo visita — el mismo principio que usan quienes fingen ser quienes no son.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#leyes">Ver cómo funciona</a>
+            <a class="btn btn-secondary" href="#aplicacion">Reportar un sitio</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Resumen del sistema">
+          <div class="hero-panel-top">
+            <div>
+              <strong>Motor de detección activo</strong><br />
+              <span style="color: var(--muted); font-size: .9rem;">Comparación, aprendizaje y verificación</span>
+            </div>
+            <span class="status">Enfoque activo</span>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><strong>4</strong><span>señales de camuflaje</span></div>
+            <div class="metric"><strong>7</strong><span>patrones de agrupación falsa</span></div>
+            <div class="metric"><strong>3</strong><span>leyes de manipulación</span></div>
+            <div class="metric"><strong>5</strong><span>fases del sistema</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="audio-explicativo">
+      <div class="container">
+        <div class="section-heading section-heading-media" style="--bg-photo: url('audio-explicativo-bg.jpg');">
+          <div>
+            <span class="eyebrow">Explicación en audio</span>
+            <h2>¿Qué es el cloaking? Escúchalo en un minuto.</h2>
+          </div>
+          <p>Una explicación breve, pensada para cualquier persona sin conocimientos técnicos.</p>
+        </div>
+
+        <div class="audio-player" aria-label="Reproductor de audio explicativo sobre cloaking">
+          <audio id="explainer-audio" src="anticloaking-explicacion.mp3" preload="metadata"></audio>
+          <div class="audio-controls">
+            <button class="audio-play-btn" id="audio-toggle" aria-label="Reproducir audio explicativo">
+              <svg id="icon-play" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+              <svg id="icon-pause" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" hidden><path fill="currentColor" d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+            </button>
+            <div class="audio-meta">
+              <strong>¿Qué es el AntiCloaking?</strong>
+              <span id="audio-time">0:00 / 0:00</span>
+            </div>
+          </div>
+          <canvas id="audio-waveform" aria-hidden="true"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fundamentos">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">01 · La naturaleza del disfraz</span>
+            <h2>Todo cloaking se comporta distinto según quién lo mire.</h2>
+          </div>
+          <p>
+            Antes de detectar un engaño hay que entender cómo percibe, decide y confía una persona — y cómo un sistema automatizado puede aprender a notar lo que un usuario distraído no nota.
+          </p>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="number">A</div>
+            <h3>Percepción y confianza</h3>
+            <p>Percepción, memoria y atención explican por qué una persona no nota que un sitio cambió de contenido entre la carga inicial y una interacción — la misma señal que debe aprender a reconocer un clasificador automático.</p>
+          </article>
+          <article class="card">
+            <div class="number">B</div>
+            <h3>Señales de comportamiento</h3>
+            <p>El feedback inconsistente, los redirects silenciosos y la ausencia de confirmación delatan tanto una mala interfaz como un sitio camuflado ante un escáner.</p>
+          </article>
+          <article class="card">
+            <div class="number">C</div>
+            <h3>Apariencia familiar</h3>
+            <p>Un patrón visual familiar genera confianza — y es exactamente lo que un sitio fraudulento imita para parecer legítimo ante quien lo visita.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="leyes">
+  <div class="container">
+    <div class="section-heading section-heading-media" style="--bg-photo: url('cloaking-examples.jpg');">
+      <div>
+        <span class="eyebrow">02 · Técnicas reales de cloaking</span>
+        <h2>Cuatro formas en que un sitio se disfraza.</h2>
+      </div>
+      <p>
+        Estos son los métodos más comunes que usan los sitios fraudulentos para mostrarle una cara distinta a un sistema de seguridad que a una persona real.
+      </p>
+    </div>
+
+    <div class="law-grid">
+      <article class="law-card">
+        <svg class="law-icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M4 4h16v4H4zM4 10h10M4 14h16M4 18h7"/></svg>
+        <h3>Cloaking por User-Agent</h3>
+        <p>El servidor lee el identificador del navegador antes de responder. Si detecta un rastreador (Googlebot, escáneres de seguridad), entrega una versión limpia del sitio. A cualquier otro visitante le muestra el contenido real.</p>
+        <ul>
+          <li>Detecta el identificador del navegador antes de responder.</li>
+          <li>La versión "limpia" nunca llega a un análisis automático.</li>
+          <li>Se descubre comparando respuestas con distintos User-Agent.</li>
+        </ul>
+      </article>
+      <article class="law-card">
+        <svg class="law-icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M3 12h18M12 3a14 14 0 010 18 14 14 0 010-18z"/></svg>
+        <h3>Cloaking por dirección IP</h3>
+        <p>El sitio mantiene una lista de rangos de IP conocidos de empresas de seguridad y buscadores. A esas IPs les responde con contenido inofensivo; a cualquier otra, con el contenido fraudulento.</p>
+        <ul>
+          <li>Requiere mantener listas actualizadas de IPs de escáneres.</li>
+          <li>Más costoso de mantener, pero más difícil de evadir por el visitante.</li>
+          <li>Se descubre repitiendo la petición desde IPs distintas.</li>
+        </ul>
+      </article>
+      <article class="law-card">
+        <svg class="law-icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 7v5l3.5 2"/></svg>
+        <h3>Cloaking por retraso</h3>
+        <p>La página carga limpia al inicio y solo después de varios segundos ejecuta una redirección o inyecta contenido malicioso — el tiempo justo para pasar un análisis automático rápido, pero no para engañar a alguien que se queda navegando.</p>
+        <ul>
+          <li>Explota el límite de tiempo de los escáneres automáticos.</li>
+          <li>El contenido inicial y el final nunca coinciden.</li>
+          <li>Se descubre observando el sitio más allá del primer segundo.</li>
+        </ul>
+      </article>
+      <article class="law-card">
+        <svg class="law-icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M15 15l5 5"/></svg>
+        <h3>Cloaking por referencia de búsqueda</h3>
+        <p>El sitio revisa de dónde viene la visita. Si detecta que la persona llegó haciendo clic en un resultado de búsqueda, muestra la página fraudulenta; si entra escribiendo la URL directamente, muestra una versión inofensiva.</p>
+        <ul>
+          <li>Explota la confianza que genera aparecer en resultados de búsqueda.</li>
+          <li>El mismo enlace se comporta distinto según cómo se accede a él.</li>
+          <li>Se descubre visitando el sitio con y sin referencia de búsqueda.</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="scan-compare" aria-label="Comparación entre lo que ve un escáner y lo que ve una persona real">
+      <div class="scan-window scan-window-clean">
+        <div class="scan-window-bar">
+          <span></span><span></span><span></span>
+          <div class="scan-window-url">tienda-oferta.com</div>
+        </div>
+        <div class="scan-window-body">
+          <div class="scan-label scan-label-clean">Lo que ve el escáner</div>
+          <div class="scan-line" style="width: 70%;"></div>
+          <div class="scan-line" style="width: 90%;"></div>
+          <div class="scan-line" style="width: 55%;"></div>
+          <div class="scan-badge">Contenido verificado</div>
+        </div>
+      </div>
+
+      <div class="scan-window scan-window-fraud">
+        <div class="scan-window-bar">
+          <span></span><span></span><span></span>
+          <div class="scan-window-url">tienda-oferta.com</div>
+        </div>
+        <div class="scan-window-body">
+          <div class="scan-label scan-label-fraud">Lo que ve la persona</div>
+          <div class="scan-line scan-line-fraud" style="width: 85%;"></div>
+          <div class="scan-line scan-line-fraud" style="width: 60%;"></div>
+          <div class="scan-line scan-line-fraud" style="width: 95%;"></div>
+          <div class="scan-badge scan-badge-fraud">Redirección a pago falso</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">03 · Entrenamiento del modelo</span>
+            <h2>Ninguna detección funciona sin un modelo bien entrenado.</h2>
+          </div>
+          <p>El sistema debe reducir falsos positivos, ofrecer señales claras y explicar cada resultado que entrega.</p>
+        </div>
+
+        <table class="principles-table">
+          <thead>
+            <tr>
+              <th scope="col">Concepto</th>
+              <th scope="col">Aplicación en el sistema</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Memoria</strong></td>
+              <td>Reconocer patrones de estafa ya vistos, sin que el usuario tenga que recordarlos activamente en cada sitio nuevo.</td>
+            </tr>
+            <tr>
+              <td><strong>Carga cognitiva</strong></td>
+              <td>Los estafadores explotan la sobrecarga (urgencia, miedo) para reducir el análisis crítico de la víctima.</td>
+            </tr>
+            <tr>
+              <td><strong>Retroalimentación</strong></td>
+              <td>La ausencia de confirmación clara en un flujo es en sí misma una señal de alerta que el sistema debe capturar.</td>
+            </tr>
+            <tr>
+              <td><strong>Errores</strong></td>
+              <td>Mensajes de error o éxito falsificados se usan para manipular la percepción de seguridad del usuario.</td>
+            </tr>
+            <tr>
+              <td><strong>Consistencia</strong></td>
+              <td>El cloaking es, literalmente, la explotación de la inconsistencia entre lo que ve un escáner y lo que ve una persona.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section section-soft" id="herramientas">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">04 · Herramientas del sistema</span>
+            <h2>Cómo se compara y clasifica cada sitio.</h2>
+          </div>
+          <p>El modelo aporta valor solo cuando compara comportamiento real: lo que ve un rastreador automático frente a lo que ve una persona.</p>
+        </div>
+
+        <div class="tool-grid">
+          <article class="tool-card">
+            <h3>Comparación dual de contenido</h3>
+            <p>El sistema solicita la misma página simulando un escáner y simulando un navegador humano, y compara ambas respuestas usando embeddings SBERT para medir qué tan distintas son.</p>
+            <div class="tag-list" aria-label="Elementos de la comparación dual">
+              <span class="tag">Petición como bot</span>
+              <span class="tag">Petición como usuario</span>
+              <span class="tag">Similitud semántica</span>
+              <span class="tag">Umbral de sospecha</span>
+              <span class="tag">Evidencia comparativa</span>
+            </div>
+          </article>
+          <article class="tool-card">
+            <h3>Clasificador de intención</h3>
+            <p>Random Forest y XGBoost aprenden de un dataset realista de sitios camuflados y legítimos para decidir, con evidencia, si una página está ocultando su verdadera cara.</p>
+            <div class="tag-list" aria-label="Fuentes de evidencia del clasificador">
+              <span class="tag">Dataset etiquetado</span>
+              <span class="tag">Entrenamiento supervisado</span>
+              <span class="tag">Validación cruzada</span>
+              <span class="tag">API de resultados</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container explainable">
+        <div class="quote-card">
+          <p>"No se reconoce por lo que muestra, sino por lo que cambia cuando cree que nadie mira."</p>
+          <span>El cloaking se define por la diferencia, no por la apariencia.</span>
+        </div>
+
+        <div class="checklist" aria-label="Criterios de una solución explicable">
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Evidencia comparativa</strong><br /><span style="color: var(--muted);">La decisión se apoya en la diferencia real entre dos versiones de la misma página.</span></div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Dataset representativo</strong><br /><span style="color: var(--muted);">El modelo se entrena con casos realistas de cloaking y de sitios legítimos.</span></div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Resultado explicable</strong><br /><span style="color: var(--muted);">Cada clasificación puede justificarse con la evidencia que la originó, no solo con un puntaje.</span></div>
+          </div>
+          <div class="check-item">
+            <span class="check-icon" aria-hidden="true">✓</span>
+            <div><strong>Prevención, no solo detección</strong><br /><span style="color: var(--muted);">El objetivo final es proteger al usuario antes de que complete una acción riesgosa.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-soft">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">05 · Metodología del proyecto</span>
+            <h2>Del primer sprint al sistema en producción.</h2>
+          </div>
+          <p>El desarrollo del Sistema AntiCloaking sigue una metodología Scrum adaptada a 9 sprints, desde el dataset hasta el frontend funcional.</p>
+        </div>
+
+        <ol class="module-list">
+          <li><div><strong>Definición del MVP</strong><br /><span style="color: var(--muted);">Alcance: motor de Machine Learning, API y frontend básico.</span></div></li>
+          <li><div><strong>Construcción del dataset</strong><br /><span style="color: var(--muted);">Casos realistas de cloaking y sitios legítimos, etiquetados para entrenamiento.</span></div></li>
+          <li><div><strong>Modelado y comparación</strong><br /><span style="color: var(--muted);">Embeddings SBERT y clasificadores Random Forest / XGBoost.</span></div></li>
+          <li><div><strong>API y roadmap de desarrollo</strong><br /><span style="color: var(--muted);">FastAPI expone los resultados; el roadmap se organiza por fases.</span></div></li>
+          <li><div><strong>Frontend y validación</strong><br /><span style="color: var(--muted);">Interfaz de consulta y pruebas sobre el sistema completo.</span></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="aplicacion">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Caso práctico · Reporte de sitio sospechoso</span>
+            <h2>Formulario de reporte de cloaking.</h2>
+          </div>
+          <p>Este ejemplo aplica revelación progresiva, objetivos táctiles amplios, validación en línea y feedback accesible — la misma disciplina que necesita cualquier formulario donde una persona reporta un posible engaño, sin pasos de más ni señales ambiguas.</p>
+        </div>
+
+        <div class="form-demo">
+          <div class="progress" aria-label="Progreso del reporte: paso 1 de 2"><span></span></div>
+          <form id="registration-form" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Nombre de quien reporta</label>
+                <input id="name" name="name" autocomplete="name" required aria-describedby="name-help name-error" />
+                <small id="name-help">Usaremos este nombre solo para dar seguimiento al reporte.</small>
+                <span class="field-error" id="name-error" aria-live="polite"></span>
+              </div>
+              <div class="field">
+                <label for="email">Correo de contacto</label>
+                <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="email-help email-error" />
+                <small id="email-help">Te avisaremos si el sitio reportado es confirmado como camuflado.</small>
+                <span class="field-error" id="email-error" aria-live="polite"></span>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+              <button class="btn btn-primary" type="submit">Enviar reporte</button>
+            </div>
+            <div class="feedback" id="form-feedback" role="status" aria-live="polite" tabindex="-1" hidden>
+              Datos válidos. Tu reporte queda listo para revisión.
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Sistema AntiCloaking Inteligente · Detección y prevención de sitios que engañan a los sistemas de seguridad.</div>
+  </footer>
+
+  <script>
+    const fittsFeedback = document.getElementById('fitts-feedback');
+    document.querySelectorAll('[data-target]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const isLarge = button.dataset.target === 'large';
+        fittsFeedback.textContent = isLarge
+          ? 'Objetivo amplio: selección más rápida y con menor riesgo de error.'
+          : 'Objetivo pequeño: requiere mayor precisión y aumenta la probabilidad de error.';
+      });
+    });
+
+    const choices = document.querySelectorAll('.choice');
+    const hickFeedback = document.getElementById('hick-feedback');
+    choices.forEach((choice) => {
+      choice.addEventListener('click', () => {
+        choices.forEach((item) => item.setAttribute('aria-pressed', 'false'));
+        choice.setAttribute('aria-pressed', 'true');
+        hickFeedback.textContent = `Acción seleccionada: ${choice.textContent}. La jerarquía reduce la carga de decisión.`;
+      });
+    });
+
+    const form = document.getElementById('registration-form');
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const nameError = document.getElementById('name-error');
+    const emailError = document.getElementById('email-error');
+    const formFeedback = document.getElementById('form-feedback');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      let valid = true;
+      nameError.textContent = '';
+      emailError.textContent = '';
+      formFeedback.hidden = true;
+
+      if (!nameInput.value.trim()) {
+        nameError.textContent = 'Escribe tu nombre completo.';
+        valid = false;
+      }
+
+      if (!emailInput.value.trim()) {
+        emailError.textContent = 'Escribe tu correo electrónico.';
+        valid = false;
+      } else if (!emailInput.validity.valid) {
+        emailError.textContent = 'Usa un formato válido, por ejemplo: nombre@empresa.com.';
+        valid = false;
+      }
+
+      if (valid) {
+        const reports = JSON.parse(localStorage.getItem('anticloaking_reports') || '[]');
+        reports.unshift({
+          name: nameInput.value.trim(),
+          email: emailInput.value.trim(),
+          date: new Date().toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short' })
+        });
+        localStorage.setItem('anticloaking_reports', JSON.stringify(reports));
+        if (typeof renderDashboard === 'function') renderDashboard();
+
+        formFeedback.hidden = false;
+        formFeedback.focus?.();
+        form.reset();
+      } else {
+        const firstInvalid = !nameInput.value.trim() ? nameInput : emailInput;
+        firstInvalid.focus();
+      }
+    });
+
+    /* Dashboard de reportes guardados en localStorage */
+    const dashboardOverlay = document.getElementById('dashboard-overlay');
+    const dashboardOpenBtn = document.getElementById('dashboard-open');
+    const dashboardCloseBtn = document.getElementById('dashboard-close');
+    const dashboardEmpty = document.getElementById('dashboard-empty');
+    const dashboardTable = document.getElementById('dashboard-table');
+    const dashboardTbody = document.getElementById('dashboard-tbody');
+    const dashboardCount = document.getElementById('dashboard-count');
+    const dashboardClearBtn = document.getElementById('dashboard-clear');
+    let lastFocusedBeforeDashboard = null;
+
+    function getReports() {
+      return JSON.parse(localStorage.getItem('anticloaking_reports') || '[]');
+    }
+
+    function renderDashboard() {
+      const reports = getReports();
+      dashboardCount.textContent = `${reports.length} ${reports.length === 1 ? 'reporte' : 'reportes'}`;
+
+      if (reports.length === 0) {
+        dashboardEmpty.hidden = false;
+        dashboardTable.hidden = true;
+        return;
+      }
+      dashboardEmpty.hidden = true;
+      dashboardTable.hidden = false;
+      dashboardTbody.innerHTML = '';
+
+      reports.forEach((r, i) => {
+        const tr = document.createElement('tr');
+        const tdName = document.createElement('td');
+        tdName.textContent = r.name;
+        const tdEmail = document.createElement('td');
+        tdEmail.textContent = r.email;
+        const tdDate = document.createElement('td');
+        tdDate.textContent = r.date;
+        const tdAction = document.createElement('td');
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'dashboard-row-delete';
+        delBtn.textContent = 'Borrar';
+        delBtn.addEventListener('click', () => {
+          const updated = getReports();
+          updated.splice(i, 1);
+          localStorage.setItem('anticloaking_reports', JSON.stringify(updated));
+          renderDashboard();
+        });
+        tdAction.appendChild(delBtn);
+        tr.append(tdName, tdEmail, tdDate, tdAction);
+        dashboardTbody.appendChild(tr);
+      });
+    }
+
+    function openDashboard() {
+      lastFocusedBeforeDashboard = document.activeElement;
+      renderDashboard();
+      dashboardOverlay.hidden = false;
+      dashboardCloseBtn.focus();
+      document.addEventListener('keydown', onDashboardKeydown);
+    }
+
+    function closeDashboard() {
+      dashboardOverlay.hidden = true;
+      document.removeEventListener('keydown', onDashboardKeydown);
+      lastFocusedBeforeDashboard?.focus();
+    }
+
+    function onDashboardKeydown(e) {
+      if (e.key === 'Escape') closeDashboard();
+    }
+
+    if (dashboardOpenBtn) {
+      dashboardOpenBtn.addEventListener('click', openDashboard);
+      dashboardCloseBtn.addEventListener('click', closeDashboard);
+      dashboardOverlay.addEventListener('click', (e) => {
+        if (e.target === dashboardOverlay) closeDashboard();
+      });
+      dashboardClearBtn.addEventListener('click', () => {
+        if (confirm('¿Borrar todos los reportes guardados en este navegador?')) {
+          localStorage.removeItem('anticloaking_reports');
+          renderDashboard();
+        }
+      });
+    }
+  </script>
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* 1. Loader inicial */
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      if (loader) setTimeout(() => loader.classList.add('is-hidden'), 400);
+    });
+
+    /* 2. Partículas de fondo (brasas) + chispas al hacer click */
+    const canvas = document.getElementById('particles-bg');
+    if (canvas && !prefersReducedMotion) {
+      const ctx = canvas.getContext('2d');
+      let embers = [];
+      let sparks = [];
+      const EMBER_COLORS = ['255,129,66', '205,168,94', '197,40,61'];
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function initEmbers() {
+        embers = Array.from({ length: 60 }, () => ({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 3.5 + 2,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: -Math.random() * 0.7 - 0.25,
+          c: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)],
+          a: Math.random() * 0.4 + 0.55,
+          flicker: Math.random() * Math.PI * 2
+        }));
+      }
+
+      function spawnSparks(x, y) {
+        const count = 26;
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 3.5 + 1.5;
+          sparks.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 1,
+            r: Math.random() * 2 + 1.5,
+            c: EMBER_COLORS[Math.floor(Math.random() * EMBER_COLORS.length)],
+            life: 1,
+            decay: Math.random() * 0.02 + 0.015
+          });
+        }
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        embers.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.flicker += 0.05;
+          if (p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
+          if (p.x < -10) p.x = canvas.width + 10;
+          if (p.x > canvas.width + 10) p.x = -10;
+
+          const flickerA = p.a * (0.6 + Math.sin(p.flicker) * 0.4);
+          ctx.save();
+          ctx.shadowBlur = 8;
+          ctx.shadowColor = `rgba(${p.c},0.8)`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.c},${flickerA})`;
+          ctx.fill();
+          ctx.restore();
+        });
+
+        sparks = sparks.filter((s) => s.life > 0);
+        sparks.forEach((s) => {
+          s.x += s.vx;
+          s.y += s.vy;
+          s.vy += 0.06;
+          s.vx *= 0.98;
+          s.life -= s.decay;
+
+          ctx.save();
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = `rgba(${s.c},0.9)`;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, Math.max(s.r * s.life, 0.3), 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${s.c},${s.life})`;
+          ctx.fill();
+          ctx.restore();
+        });
+
+        requestAnimationFrame(tick);
+      }
+
+      resizeCanvas();
+      initEmbers();
+      window.addEventListener('resize', () => { resizeCanvas(); initEmbers(); });
+      window.addEventListener('click', (e) => spawnSparks(e.clientX, e.clientY));
+      requestAnimationFrame(tick);
+    }
+
+    /* 3. Animaciones al hacer scroll */
+    const revealTargets = document.querySelectorAll(
+      '.card, .law-card, .tool-card, .demo-box, .quote-card, .checklist, .module-list li, .metric, .principles-table'
+    );
+    if (prefersReducedMotion) {
+      revealTargets.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      revealTargets.forEach((el) => el.classList.add('reveal'));
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      revealTargets.forEach((el) => observer.observe(el));
+    }
+
+    /* 4. Luz que sigue el cursor en tarjetas */
+    if (!prefersReducedMotion) {
+      document.querySelectorAll('.card, .law-card, .tool-card, .demo-box').forEach((el) => {
+        el.addEventListener('mousemove', (e) => {
+          const rect = el.getBoundingClientRect();
+          el.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+          el.style.setProperty('--my', `${e.clientY - rect.top}px`);
+        });
+      });
+    }
+
+    /* 5. Parallax en el hero */
+    const heroEl = document.querySelector('.hero');
+    if (heroEl && !prefersReducedMotion) {
+      window.addEventListener('scroll', () => {
+        heroEl.style.setProperty('--parallax', `${window.scrollY * 0.15}px`);
+      }, { passive: true });
+    }
+
+    /* 6. Reproductor de audio con onda real */
+    const explainerAudio = document.getElementById('explainer-audio');
+    const audioToggle = document.getElementById('audio-toggle');
+    const iconPlay = document.getElementById('icon-play');
+    const iconPause = document.getElementById('icon-pause');
+    const audioTime = document.getElementById('audio-time');
+    const waveCanvas = document.getElementById('audio-waveform');
+
+    if (explainerAudio && audioToggle && waveCanvas) {
+      const waveCtx = waveCanvas.getContext('2d');
+      let audioCtx, analyser, source, dataArray, animId;
+
+      function formatTime(s) {
+        if (!isFinite(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60).toString().padStart(2, '0');
+        return `${m}:${sec}`;
+      }
+
+      function resizeWave() {
+        waveCanvas.width = waveCanvas.clientWidth;
+        waveCanvas.height = waveCanvas.clientHeight;
+      }
+      window.addEventListener('resize', resizeWave);
+      resizeWave();
+
+      function setupAudioGraph() {
+        if (audioCtx) return;
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        source = audioCtx.createMediaElementSource(explainerAudio);
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 256;
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+      }
+
+      function drawWave() {
+        animId = requestAnimationFrame(drawWave);
+        analyser.getByteFrequencyData(dataArray);
+        waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+        const barCount = 48;
+        const barWidth = waveCanvas.width / barCount;
+        for (let i = 0; i < barCount; i++) {
+          const value = dataArray[Math.floor(i * dataArray.length / barCount)];
+          const barHeight = (value / 255) * waveCanvas.height;
+          const x = i * barWidth;
+          const y = (waveCanvas.height - barHeight) / 2;
+          const grad = waveCtx.createLinearGradient(0, y, 0, y + barHeight);
+          grad.addColorStop(0, 'rgba(69,208,224,0.9)');
+          grad.addColorStop(1, 'rgba(255,129,66,0.9)');
+          waveCtx.fillStyle = grad;
+          waveCtx.fillRect(x + 1, y, barWidth - 2, Math.max(barHeight, 2));
+        }
+      }
+
+      function drawIdle() {
+        waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+        const barCount = 48;
+        const barWidth = waveCanvas.width / barCount;
+        waveCtx.fillStyle = 'rgba(153,161,179,0.25)';
+        for (let i = 0; i < barCount; i++) {
+          waveCtx.fillRect(i * barWidth + 1, (waveCanvas.height - 4) / 2, barWidth - 2, 4);
+        }
+      }
+      drawIdle();
+
+      audioToggle.addEventListener('click', () => {
+        setupAudioGraph();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        explainerAudio.paused ? explainerAudio.play() : explainerAudio.pause();
+      });
+
+      explainerAudio.addEventListener('play', () => {
+        iconPlay.hidden = true;
+        iconPause.hidden = false;
+        audioToggle.setAttribute('aria-label', 'Pausar audio explicativo');
+        drawWave();
+      });
+
+      explainerAudio.addEventListener('pause', () => {
+        iconPlay.hidden = false;
+        iconPause.hidden = true;
+        audioToggle.setAttribute('aria-label', 'Reproducir audio explicativo');
+        cancelAnimationFrame(animId);
+        drawIdle();
+      });
+
+      explainerAudio.addEventListener('ended', () => {
+        cancelAnimationFrame(animId);
+        drawIdle();
+      });
+
+      explainerAudio.addEventListener('timeupdate', () => {
+        audioTime.textContent = `${formatTime(explainerAudio.currentTime)} / ${formatTime(explainerAudio.duration)}`;
+      });
+      explainerAudio.addEventListener('loadedmetadata', () => {
+        audioTime.textContent = `0:00 / ${formatTime(explainerAudio.duration)}`;
+      });
+    }
+  </script>
+</body>
+</html>
