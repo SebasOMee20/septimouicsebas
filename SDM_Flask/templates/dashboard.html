@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard de reportes | Sistema AntiCloaking</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="{{ url_for('inicio') }}" aria-label="Inicio, Sistema AntiCloaking">
+        <span class="brand-mark" aria-hidden="true">AC</span>
+        <span>AntiCloaking</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="{{ url_for('inicio') }}#aplicacion">Reportar</a></li>
+          <li><a class="nav-link-btn" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="section" id="dashboard">
+      <div class="container dashboard-container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Panel interno</span>
+            <h2>Reportes recibidos</h2>
+          </div>
+          <p>Reportes de sitios sospechosos guardados en la base de datos.</p>
+        </div>
+
+        {% if reportes %}
+          <div class="tabla-wrapper">
+            <table class="principles-table" style="width: 100%;">
+                            <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Correo</th>
+                  <th scope="col">Link reportado</th>
+                  <th scope="col">Mensaje</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col"><span class="visually-hidden">Acciones</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for r in reportes %}
+                  <tr>
+                    <td>{{ r[0] }}</td>
+                    <td>{{ r[1] }}</td>
+                    <td>{{ r[2] }}</td>
+                    <td><a href="{{ r[3] }}" target="_blank" rel="noopener noreferrer">{{ r[3] }}</a></td>
+                    <td>{{ r[4] }}</td>
+                    <td>{{ r[5] }}</td>
+                      <td class="acciones-cell">
+                        <div class="acciones">
+                          <a href="{{ url_for('editar_reporte', id=r[0]) }}" class="btn btn-secondary">
+                            Editar
+                          </a>
+
+                          <a href="{{ url_for('eliminar_reporte', id=r[0]) }}"
+                            class="btn btn-secondary"
+                            onclick="return confirm('¿Seguro que deseas eliminar este reporte?');">
+                            Borrar
+                          </a>
+                        </div>
+                      </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+            <span>{{ reportes|length }} {{ 'reporte' if reportes|length == 1 else 'reportes' }}</span>
+            <a href="{{ url_for('vaciar_reportes') }}"
+               class="btn btn-secondary"
+               onclick="return confirm('¿Borrar todos los reportes guardados en la base de datos?');">
+               Borrar todos
+            </a>
+          </div>
+        {% else %}
+          <p>Todavía no hay reportes guardados en la base de datos.</p>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Sistema AntiCloaking Inteligente · Detección y prevención de sitios que engañan a los sistemas de seguridad.</div>
+  </footer>
+</body>
+</html>

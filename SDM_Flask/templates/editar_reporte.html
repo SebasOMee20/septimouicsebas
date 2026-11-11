@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editar reporte | Sistema AntiCloaking</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="{{ url_for('inicio') }}" aria-label="Inicio, Sistema AntiCloaking">
+        <span class="brand-mark" aria-hidden="true">AC</span>
+        <span>AntiCloaking</span>
+      </a>
+      <nav aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="{{ url_for('inicio') }}#aplicacion">Reportar</a></li>
+          <li><a class="nav-link-btn" href="{{ url_for('dashboard') }}">Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="section" id="aplicacion">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Panel interno</span>
+            <h2>Editar reporte #{{ registro[0] }}</h2>
+          </div>
+          <p>Corrige el nombre o el correo de este reporte guardado en la base de datos.</p>
+        </div>
+
+        <div class="form-demo">
+          <form method="POST" action="{{ url_for('editar_reporte', id=registro[0]) }}">
+                        <div class="form-grid">
+              <div class="field">
+                <label for="name">Nombre de quien reporta</label>
+                <input id="name" name="name" autocomplete="name" required value="{{ registro[1] }}" />
+              </div>
+              <div class="field">
+                <label for="email">Correo de contacto</label>
+                <input id="email" name="email" type="email" autocomplete="email" required value="{{ registro[2] }}" />
+              </div>
+              <div class="field">
+                <label for="link">Link del sitio sospechoso</label>
+                <input id="link" name="link" type="url" required value="{{ registro[3] }}" />
+              </div>
+              <div class="field">
+                <label for="mensaje">¿Qué viste en el sitio?</label>
+                <textarea id="mensaje" name="mensaje" rows="4" required>{{ registro[4] }}</textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">Sistema AntiCloaking Inteligente · Detección y prevención de sitios que engañan a los sistemas de seguridad.</div>
+  </footer>
+</body>
+</html>
